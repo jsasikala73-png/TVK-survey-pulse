@@ -30,9 +30,11 @@
     ::-webkit-scrollbar-thumb:hover {
       background: #f59e0b;
     }
+    
     .tvk-gradient-text {
       background: linear-gradient(135deg, #fbbf24 0%, #f59e0b 50%, #dc2626 100%);
       -webkit-background-clip: text;
+      background-clip: text;
       -webkit-text-fill-color: transparent;
     }
   </style>
@@ -235,6 +237,61 @@
               <span class="text-amber-400 mr-2">6.</span> What specific quality or speech moment made you consider Vijay as CM?
             </label>
             <textarea id="q_text" name="q_text" rows="3" placeholder="Type your personal opinion..." class="w-full bg-slate-950 border border-slate-800 text-slate-200 text-sm rounded-2xl p-4 focus:outline-none focus:border-amber-400"></textarea>
+          </div>
+          <!-- Q7: Preferred Electoral Alliance Strategy -->
+          <div class="space-y-4 pt-6 border-t border-slate-800/80">
+            <label class="block text-base font-bold text-slate-100 leading-snug">
+              <span class="text-amber-400 mr-2">7.</span> What alliance strategy should TVK adopt in 2026? <span class="text-red-400">*</span>
+            </label>
+            <div class="space-y-2.5">
+              <label class="q-option p-4 rounded-2xl border border-slate-800/80 bg-slate-950/60 text-slate-300 hover:border-slate-700 hover:bg-slate-950 transition flex items-center justify-between cursor-pointer">
+                <span class="text-sm font-medium">Contest completely solo without any coalition</span>
+                <input type="radio" name="q_alliance" value="Contest completely solo without any coalition" class="accent-amber-400 w-4 h-4" onchange="highlightOption(this)">
+              </label>
+              <label class="q-option p-4 rounded-2xl border border-slate-800/80 bg-slate-950/60 text-slate-300 hover:border-slate-700 hover:bg-slate-950 transition flex items-center justify-between cursor-pointer">
+                <span class="text-sm font-medium">Form a broad coalition with like-minded regional parties</span>
+                <input type="radio" name="q_alliance" value="Form a broad coalition with like-minded regional parties" class="accent-amber-400 w-4 h-4" onchange="highlightOption(this)">
+              </label>
+              <label class="q-option p-4 rounded-2xl border border-slate-800/80 bg-slate-950/60 text-slate-300 hover:border-slate-700 hover:bg-slate-950 transition flex items-center justify-between cursor-pointer">
+                <span class="text-sm font-medium">Decide coalition post-election based on seat distribution</span>
+                <input type="radio" name="q_alliance" value="Decide coalition post-election based on seat distribution" class="accent-amber-400 w-4 h-4" onchange="highlightOption(this)">
+              </label>
+            </div>
+          </div>
+
+          <!-- Q8: Biggest Concern / Challenge -->
+          <div class="space-y-4 pt-6 border-t border-slate-800/80">
+            <label class="block text-base font-bold text-slate-100 leading-snug">
+              <span class="text-amber-400 mr-2">8.</span> What is the biggest hurdle for Vijay's political victory? <span class="text-red-400">*</span>
+            </label>
+            <div class="space-y-2.5">
+              <label class="q-option p-4 rounded-2xl border border-slate-800/80 bg-slate-950/60 text-slate-300 hover:border-slate-700 hover:bg-slate-950 transition flex items-center justify-between cursor-pointer">
+                <span class="text-sm font-medium">Strong booth-level cadre strength of established parties</span>
+                <input type="radio" name="q_challenge" value="Strong booth-level cadre strength of established parties" class="accent-amber-400 w-4 h-4" onchange="highlightOption(this)">
+              </label>
+              <label class="q-option p-4 rounded-2xl border border-slate-800/80 bg-slate-950/60 text-slate-300 hover:border-slate-700 hover:bg-slate-950 transition flex items-center justify-between cursor-pointer">
+                <span class="text-sm font-medium">Split in opposition anti-establishment votes</span>
+                <input type="radio" name="q_challenge" value="Split in opposition anti-establishment votes" class="accent-amber-400 w-4 h-4" onchange="highlightOption(this)">
+              </label>
+              <label class="q-option p-4 rounded-2xl border border-slate-800/80 bg-slate-950/60 text-slate-300 hover:border-slate-700 hover:bg-slate-950 transition flex items-center justify-between cursor-pointer">
+                <span class="text-sm font-medium">Money power & electoral freebies during campaigns</span>
+                <input type="radio" name="q_challenge" value="Money power & electoral freebies during campaigns" class="accent-amber-400 w-4 h-4" onchange="highlightOption(this)">
+              </label>
+            </div>
+          </div>
+
+          <!-- Q9: Expected Governance Style -->
+          <div class="space-y-4 pt-6 border-t border-slate-800/80">
+            <label class="block text-base font-bold text-slate-100 leading-snug">
+              <span class="text-amber-400 mr-2">9.</span> Which primary leadership trait do you expect from Vijay as CM? <span class="text-red-400">*</span>
+            </label>
+            <select id="q_trait" name="q_trait" class="w-full bg-slate-950 border border-slate-800 text-slate-200 text-sm rounded-2xl p-4 focus:outline-none focus:border-amber-400">
+              <option value="">-- Choose Expected Leadership Trait --</option>
+              <option value="Direct public accessibility & transparent governance">Direct public accessibility & transparent governance</option>
+              <option value="Strict law enforcement & swift decision making">Strict law enforcement & swift decision making</option>
+              <option value="Focus on youth employment & technology hubs">Focus on youth employment & technology hubs</option>
+              <option value="Social justice & welfare balance">Social justice & welfare balance</option>
+            </select>
           </div>
 
           <!-- Submit Button -->
@@ -478,6 +535,9 @@
       const age = document.getElementById('q_age').value;
       const region = document.getElementById('q_region').value;
       const text = document.getElementById('q_text').value.trim();
+      const alliance = document.querySelector('input[name="q_alliance"]:checked');
+      const challenge = document.querySelector('input[name="q_challenge"]:checked');
+      const trait = document.getElementById('q_trait').value;
 
       if (!factor) {
         errorMsgElem.textContent = 'Please answer Question 1 (Primary factor driving public trust).';
@@ -504,6 +564,21 @@
         errorElem.classList.remove('hidden');
         return;
       }
+      if (!alliance) {
+        errorMsgElem.textContent = 'Please select Question 7 (Alliance strategy).';
+        errorElem.classList.remove('hidden');
+        return;
+      }
+      if (!challenge) {
+        errorMsgElem.textContent = 'Please select Question 8 (Political hurdle).';
+        errorElem.classList.remove('hidden');
+        return;
+      }
+      if (!trait) {
+        errorMsgElem.textContent = 'Please select Question 9 (Leadership trait).';
+        errorElem.classList.remove('hidden');
+        return;
+      }
 
       const newEntry = {
         id: 'resp-' + Date.now(),
@@ -513,13 +588,11 @@
         q_rating: rating,
         q_age: age,
         q_region: region,
-        q_text: text || 'N/A'
+        q_text: text || 'N/A',
+        q_alliance: alliance.value,
+        q_challenge: challenge.value,
+        q_trait: trait
       };
-
-      responses.unshift(newEntry);
-      saveData();
-      switchView('success');
-    }
 
     function resetSurveyForm() {
       document.getElementById('survey-form').reset();
@@ -663,7 +736,7 @@
     function exportCSV() {
       if (responses.length === 0) return;
 
-      const headers = ['Response ID', 'Timestamp', 'Primary Driving Factor', 'Top Policy Priority', 'Readiness Rating', 'Age Group', 'Region', 'Feedback / Opinion'];
+      const headers = ['Response ID', 'Timestamp', 'Primary Driving Factor', 'Top Policy Priority', 'Readiness Rating', 'Age Group', 'Region', 'Alliance Strategy', 'Biggest Challenge', 'Expected Leadership Trait', 'Feedback / Opinion'];
       const rows = responses.map(r => [
         r.id,
         new Date(r.submittedAt).toLocaleString(),
@@ -672,6 +745,9 @@
         r.q_rating,
         `"${(r.q_age || '').replace(/"/g, '""')}"`,
         `"${(r.q_region || '').replace(/"/g, '""')}"`,
+        `"${(r.q_alliance || '').replace(/"/g, '""')}"`,
+        `"${(r.q_challenge || '').replace(/"/g, '""')}"`,
+        `"${(r.q_trait || '').replace(/"/g, '""')}"`,
         `"${(r.q_text || '').replace(/"/g, '""')}"`
       ]);
 
@@ -687,7 +763,8 @@
 
     window.onload = function() {
       initData();
-    };
+    }; }
   </script>
-</body>
+</body> 
+    
 </html>
